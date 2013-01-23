@@ -1,0 +1,4 @@
+amas.emacs
+==========
+
+emacs config
