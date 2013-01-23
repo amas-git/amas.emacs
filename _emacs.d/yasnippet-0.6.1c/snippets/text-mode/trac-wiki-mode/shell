@@ -1,0 +1,5 @@
+#name : Shell script
+# --
+{{{#!sh
+$ $0
+}}}

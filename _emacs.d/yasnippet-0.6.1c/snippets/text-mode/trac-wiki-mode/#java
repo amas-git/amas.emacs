@@ -1,0 +1,5 @@
+#name : Java code block 
+# --
+{{{#!java
+$0
+}}}

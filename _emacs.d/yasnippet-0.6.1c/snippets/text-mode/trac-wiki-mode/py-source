@@ -1,0 +1,6 @@
+#name : Python code block 
+# --
+{{{
+#!python
+$0
+}}}
