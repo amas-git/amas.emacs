@@ -335,7 +335,8 @@
 
 (load "auctex.el" nil t t)
 (load "preview-latex.el" nil t t)
-
+(setq TeX-engine 'xetex)
+(setq TeX-PDF-mode t)
 ;;------------------------------------------------------------------[ Yasnippet ]
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/yasnippet"))
 (require 'yasnippet)
