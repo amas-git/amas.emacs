@@ -8,8 +8,8 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/color-theme"))
 
 ;;------------------------------------------------------------------[ Test  ]
-(require 'idle-highlight-mode)
-(idle-highlight-mode)
+;;(require 'idle-highlight-mode)
+;;(idle-highlight-mode)
 ;;------------------------------------------------------------------[ Basic ]
 (require 'font-lock)
 (require 'linum)
@@ -136,16 +136,16 @@
 (setq exec-path (cons "/usr/lib/erlang/bin" exec-path))
 (require 'erlang-start)
 ;;------------------------------------------------------------------[ Erlang.Distel ]
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/distel/elisp"))
-(require 'distel)
-(distel-setup)
+;;(add-to-list 'load-path (expand-file-name "~/.emacs.d/distel/elisp"))
+;;(require 'distel)
+;;(distel-setup)
 
 ;; prevent annoying hang-on-compile
-(defvar inferior-erlang-prompt-timeout t)
+;;(defvar inferior-erlang-prompt-timeout t)
 ;; default node name to emacs@localhost
-(setq inferior-erlang-machine-options '("-sname" "emacs"))
+;;(setq inferior-erlang-machine-options '("-sname" "emacs"))
 ;; tell distel to default to that node
-(setq erl-nodename-cache 'emacs@localhost)
+;;(setq erl-nodename-cache 'emacs@localhost)
 
 ;;------------------------------------------------------------------[ Erlang.amas ]
 (defun amas-erlang-mode-hook () 
@@ -256,7 +256,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(highlight-current-line-face ((t (:background "gray"))))
+ '(highlight-current-line-face ((t (:background "black"))))
  '(ido-first-match ((t (:background "black" :foreground "cyan" :weight bold))))
  '(linum ((t (:inherit (shadow default) :foreground "yellow"))))
  '(tabbar-button-highlight ((t (:inherit tabbar-default))))
@@ -413,4 +413,4 @@
 (setq inferior-lisp-program "/opt/sbcl/bin/sbcl")    ; your Lisp system
 (add-to-list 'load-path "~/.emacs.d/slime/release")  ; your SLIME directory
 (require 'slime)
-(slime-setup)
+;;(slime-setup)
