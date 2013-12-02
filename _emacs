@@ -1,4 +1,4 @@
-
+(server-start)
 ;;------------------------------------------------------------------[ LoadPath ]
 (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elib"))
@@ -250,7 +250,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ecb-options-version "2.40")
- '(haskell-program-name "ghci -i \".\""))
+ '(haskell-program-name "ghci -i \".\"")
+ '(py-shell-name "python2.7"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -283,10 +284,6 @@
 ;;                '(("http"     . "127.0.0.1:80")))
 (require 'trac-wiki)
 (trac-wiki-define-project "amas"  "http://localhost/wiki" t)
-(trac-wiki-define-project "test"  "http://localhost/lambda.code" t)
-(trac-wiki-define-project "work"  "http://192.168.81.225/wiki" t)
-(trac-wiki-define-project "midian"  "http://192.168.49.132/midian" t)
-(trac-wiki-define-project "mobileguard"  "http://211.103.146.234/scrum/pj_mobile_guard" t)
 (global-set-key (kbd "<f12>") 'trac-wiki-edit)
 
 ;;------------------------------------------------------------------[ Icicles ]
@@ -294,6 +291,28 @@
 (require 'icicles)
 ;;(icy-mode 1)
 
+;;------------------------------------------------------------------[ Python ]
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/python/python/Pymacs"))
+(require 'pymacs)
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call  "pymacs")
+(autoload 'pymacs-eval  "pymacs" nil t)
+(autoload 'pymacs-exec  "pymacs" nil t)
+(autoload 'pymacs-load  "pymacs" nil t)
+(autoload 'pymacs-autoload "pymacs")
+(setq ropemacs-enable-autoimport t)
+(pymacs-load "ropemacs" "rope-")
+
+;; 暂时不能用
+;; (require 'python)
+;; (setq python-shell-interpreter "python2")
+
+
+(add-to-list 'load-path "~/.emacs.d/python/python-mode") 
+(setq py-install-directory "~/.emacs.d/python/python-mode")
+(require 'python-mode)
+(setq py-shell-name "python2")
+(setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
 ;;------------------------------------------------------------------[ CUA ]
 ;;(require 'cua)
 (cua-mode t)
@@ -335,7 +354,8 @@
 
 (load "auctex.el" nil t t)
 (load "preview-latex.el" nil t t)
-
+(setq TeX-engine 'xetex)
+(setq TeX-PDF-mode t)
 ;;------------------------------------------------------------------[ Yasnippet ]
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/yasnippet"))
 (require 'yasnippet)
@@ -409,8 +429,48 @@
 (add-to-list 'load-path "~/.emacs.d/org-mode/lisp")
 (require 'org-install)
 
+;; ------------------------------------------------------------------[ FLYMAKE ]
+(require 'flymake)
+(setq flymake-max-parallel-syntax-checks 4)
+(setq temporary-file-directory "/tmp/.emacs.d/flymake")
+(setq flymake-number-of-errors-to-display 4)
+
+;; python: pylint
+(when (load "flymake" t)
+  (defun flymake-pylint-init ()
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+           (local-file (file-relative-name
+                        temp-file
+                        (file-name-directory buffer-file-name))))
+      (list "epylint" (list local-file))))
+
+(add-to-list 'flymake-allowed-file-name-masks
+             '("\\.py\\'" flymake-pylint-init)))
+
+;; shell: 不是很好用
+(require 'flymake-shell)
+(add-hook 'sh-mode-hook 'flymake-shell-load)
 ;; ------------------------------------------------------------------[ SLIME ]
 (setq inferior-lisp-program "/opt/sbcl/bin/sbcl")    ; your Lisp system
 (add-to-list 'load-path "~/.emacs.d/slime/release")  ; your SLIME directory
 (require 'slime)
-;;(slime-setup)
+(slime-setup)
+;; ------------------------------------------------------------------[ CCPP ]
+;(setq gdb-many-windows t)
+;(gud-tooltip-mode)
+;(global-set-key [f5]    'gdb)          ;; 调试模式
+;(global-set-key [C-f5]  'gud-run) 
+;(global-set-key [S-f5]  'gud-cont)
+;(global-set-key [f7]    'compile)      ;; 编译
+;(global-set-key [f8]    'gud-print)
+;(global-set-key [C-f8]  'gud-pstar)
+;(global-set-key [f9]    'gud-break)
+;(global-set-key [C-f9]  'gud-remove)
+;(global-set-key [f10]   'gud-next)
+;(global-set-key [C-f10] 'gud-until)
+;(global-set-key [S-f10] 'gud-jump)
+;(global-set-key [f11]   'gud-step)
+;(global-set-key [C-f11] 'gud-finish)
+;(add-hook 'gdb-mode-hook '(lambda ()
+;                            (define-key c-mode-base-map [(f5)] 'gud-go)))
